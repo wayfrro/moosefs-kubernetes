@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: sidecar-app
+  name: sidecar-app
+  namespace: moosefs
+spec:
+  selector:
+    matchLabels:
+      app: sidecar-app
+  template:
+    metadata:
+      labels:
+        app: sidecar-app
+    spec:
+      containers:
+      - env:
+        - name: MFSMASTER
+          value: mfsmaster.default
+        - name: MFSPATH
+          value: /moosefs-kubernetes
+        image: "poeyashi/mfsmount:3.0.99-1"
+        imagePullPolicy: Always
+        name: mfsmount-sidecar-container
+        resources: {}
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /dev/fuse
+          name: fuse
+        - mountPath: /mnt/mfsdata:shared
+          name: shared-mfs-data
+      - image: "poeyashi/ubuntu:16.04"
+        name: application-container
+        command: ["sleep", "infinity"]
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /moosefs
+          name: shared-mfs-data
+        resources: {}
+      volumes:
+      - hostPath:
+          path: /dev/fuse
+        name: fuse
+      - emptyDir: {}
+        name: shared-mfs-data
+      terminationGracePeriodSeconds: 1
+      restartPolicy: Always
+  revisionHistoryLimit: 0

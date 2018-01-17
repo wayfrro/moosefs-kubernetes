@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    app: debug
+  name: debug
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: debug
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: debug
+    spec:
+      containers:
+      - image: "poeyashi/ubuntu:16.04"
+        name: sleep-infinity
+        command: ["sleep", "infinity"]
+        imagePullPolicy: Always
+        resources: {}
+      terminationGracePeriodSeconds: 1
+      tolerations:
+      - operator: "Exists"
+      restartPolicy: Always
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: "100%"
+  revisionHistoryLimit: 0

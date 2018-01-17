@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: container02
+  name: container02
+  namespace: moosefs
+spec:
+  selector:
+    matchLabels:
+      app: container02
+  template:
+    metadata:
+      labels:
+        app: container02
+    spec:
+      containers:
+      - image: "poeyashi/ubuntu:16.04"
+        name: sleep-infinity
+        command: ["sleep", "infinity"]
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /moosefs
+          name: moosefs
+        resources: {}
+      volumes:
+      - name: moosefs
+        hostPath:
+          type: Directory
+          path: /mnt/disks/moosefs
+      terminationGracePeriodSeconds: 1
+      restartPolicy: Always
+  revisionHistoryLimit: 0
