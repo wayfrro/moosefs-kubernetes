@@ -4,7 +4,6 @@ metadata:
   labels:
     app: sidecar-app
   name: sidecar-app
-  namespace: moosefs
 spec:
   selector:
     matchLabels:

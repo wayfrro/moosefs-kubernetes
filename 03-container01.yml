@@ -4,7 +4,6 @@ metadata:
   labels:
     app: container01
   name: container01
-  namespace: moosefs
 spec:
   selector:
     matchLabels:
