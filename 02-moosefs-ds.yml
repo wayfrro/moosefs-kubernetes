@@ -22,23 +22,14 @@ spec:
         - name: MFSPATH
           value: /moosefs-kubernetes
         image: poeyashi/mfsmount:3.0.99-1
-        imagePullPolicy: Always
         name: mfsmount
-        resources: {}
         securityContext:
           privileged: true
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
         volumeMounts:
         - mountPath: /dev/fuse
           name: fuse
         - mountPath: /mnt/mfsdata:shared
           name: moosefs
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
       tolerations:
       - effect: NoSchedule
         key: dedicated
