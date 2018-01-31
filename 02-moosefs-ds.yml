@@ -28,6 +28,8 @@ spec:
         volumeMounts:
         - mountPath: /dev/fuse
           name: fuse
+          # set propatation to shared
+          # https://docs.docker.com/engine/admin/volumes/bind-mounts/#configure-bind-propagation
         - mountPath: /mnt/mfsdata:shared
           name: moosefs
       tolerations:
